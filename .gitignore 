@@ -1,0 +1,27 @@
+# File di sistema
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# File temporanei e log
+*.log
+*.tmp
+*.bak
+
+# Dipendenze e file generati
+node_modules/
+dist/
+build/
+coverage/
+
+# Configurazioni e segreti locali
+.env
+.env.*
+!.env.example
+*.local
+
+# Cache Python, se usi script Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
