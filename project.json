@@ -1,0 +1,47 @@
+{
+  "site": {
+    "title": "ETERNITYEON-",
+    "tagline": "Wildland Revolution"
+  },
+  "hero": {
+    "eyebrow": "Generative Immersive Digital Experience",
+    "description": "ETERNITYEON- è un progetto di ricerca artistica e tecnica dedicato alla trasformazione di segnali, dati e percezioni in esperienze visive, sonore e immersive."
+  },
+  "stats": [
+    {
+      "label": "Esperienza",
+      "value": "Immersiva"
+    },
+    {
+      "label": "Autore",
+      "value": "Ivan Nicola Lojodice"
+    },
+    {
+      "label": "Tema",
+      "value": "Segnale e trasformazione"
+    },
+    {
+      "label": "Modello",
+      "value": "Open"
+    }
+  ],
+  "story": {
+    "title": "Tra dato, ambiente e percezione",
+    "text": "ETERNITYEON- esplora il passaggio dal dato alla forma. Ogni flusso diventa una possibile esperienza visiva, sonora e narrativa."
+  },
+  "applications": [
+    {
+      "title": "Installazioni immersive",
+      "text": "Ambienti sensibili in cui presenza, movimento e rumore si trasformano in esperienza."
+    },
+    {
+      "title": "Ricerca e arte",
+      "text": "Un framework aperto per esplorare segnali, complessità e relazione tra sistemi naturali e digitali."
+    },
+    {
+      "title": "Strutture viventi",
+      "text": "Possibili applicazioni in contesti ambientali, culturali e tecnologici in evoluzione."
+    }
+  ],
+  "footer": "ETERNITYEON- · Wildland Revolution · Ivan Nicola Lojodice"
+}
