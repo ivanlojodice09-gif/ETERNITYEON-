@@ -34,3 +34,8 @@ ETERNITYEON-/
 ├── README.md
 ├── index.html
 └── project.json
+## Documentazione ed esempi
+
+- [Ottimizzazione memoria e integrazione WebSocket](docs/OTTIMIZZAZIONE_MEMORIA_WEBSOCKET.md)
+- [Esempio DataCore](examples/datacore_memory_aware.py)
+- [Client WebSocket](examples/websocket_client.py)
