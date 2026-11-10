@@ -1,0 +1,207 @@
+
+Ecco il Master Document finale per LAST EON (v. 2026.1). Questo documento è la "Bibbia" tecnica del progetto, unendo configurazione, logica di calcolo, rendering avanzato e controllo hardware in un unico ecosistema integrato.
+------------------------------
+📜 LAST EON: DOCUMENTAZIONE TECNICA INTEGRALE
+Project Focus: Simbiosi bioelettrica tra piante e umani.
+Architecture: TouchDesigner + Arduino + GLSL + JSON Config.
+------------------------------
+1. IL "CERVELLO": BUNDLE DI CONFIGURAZIONE (config_lasteon.json)
+Parametri vitali esterni per calibrazione rapida senza accesso al codice.
+
+{
+"project": "Last Eon",
+"version": "2026.1",
+"frequencies": {
+"omega_min": 0.5,
+"omega_max": 4.0,
+"gain_factor": 2.5
+},
+"thresholds": {
+"touch_caos": 0.75,
+"stress_water": 0.20,
+"group_symbiosis": 1.5,
+"fade_speed": 0.05
+},
+"display": {
+"resolution": [3840, 1080],
+"refresh_rate": 120
+}
+}
+
+------------------------------
+2. AUTOMAZIONE DEL PROGETTO (ext_loader.py)
+Script da inserire in un Text DAT. Gestisce l'avvio, la risoluzione e la gestione errori.
+
+import jsonimport os
+def onStart():
+path = project.folder + "/config_lasteon.json"
+if not os.path.exists(path):
+debug("ERRORE: JSON non trovato. Uso parametri di backup."); return
+
+try:
+with open(path, 'r') as f:
+data = json.load(f)
+
+# Sync Parametri Bio
+c = op('constant_bio')
+c.par.value0 = data['frequencies']['gain_factor'] # Omega Gain
+c.par.value1 = data['thresholds']['touch_caos'] # Caos Trigger
+
+# Sync Display
+op('render_final').par.w, op('render_final').par.h = data['display']['resolution']
+op('window1').par.winopen.pulse() # Apre Performance Mode
+print("Last Eon: Sistema Sincronizzato.")
+except Exception as e:
+debug(f"Errore caricamento: {e}")
+
+------------------------------
+3. LOGICA DI ELABORAZIONE SEGNALI (CHOPs & CALIBRAZIONE)
+Il segnale GSR (Galvanic Skin Response) viene pulito per trasformare il "rumore" in estetica.
+
+* Normalizzazione Adattiva: Un Analyze CHOP (Average, 10s) calcola la linea di base della pianta. Un Math CHOP (Subtract) isola il delta del contatto umano.
+* Smoothing: Lag CHOP (0.2, 0.8) per evitare picchi nervosi nel visual.
+* Trigger di Stato (chopExec1):
+
+def onValueChange(channel, sampleIndex, val, prev):
+# Transizione Ordine -> Caos
+target = 1.0 if val > op('constant_bio')['caos_trigger'] else 0.0
+op('logic_transition').par.value0 = target # Pilota il mix dello Shader
+
+# Trigger Irrigazione
+cmd = 'W' if val < op('constant_bio')['stress_water'] else 'S'
+op('serial1').send(cmd, terminate='\n')
+
+------------------------------
+4. IL CUORE VISIVO: SHADER GLSL ("BIOLUMINESCENCE")
+Inserire in un GLSL TOP per generare filamenti organici che reagiscono a uOmega.
+
+uniform float uOmega; // Velocità pulsazioneuniform float uTime; // absTime.secondsuniform float uCaos; // Mix stato (0.0 ordine, 1.0 caos)
+out vec4 fragColor;
+void main() {
+vec2 uv = vUV.st;
+float pulse = sin(uTime * uOmega) * 0.5 + 0.5;
+
+// Distorsione filamenti
+float noise = fract(sin(dot(uv, vec2(12.9, 78.2))) * 43758.5);
+float line = smoothstep(0.15, 0.0, abs(uv.y - 0.5 + sin(uv.x * 10.0 + uTime) * (0.1 + uCaos * 0.3)));
+
+// Colore: Blu Etereo -> Oro Caotico
+vec3 col = mix(vec3(0.05, 0.1, 0.4), vec3(1.0, 0.7, 0.2), uCaos);
+fragColor = vec4(col * line * (pulse + 0.2), 1.0);
+}
+
+------------------------------
+5. CONTROLLO FISICO E SICUREZZA (Arduino Sketch)
+Gestione relay con Safety Timeout per evitare allagamenti in caso di crash del PC.
+
+const int RELAY_PIN = 8;unsigned long lastWaterTime = 0;const unsigned long TIMEOUT = 5000; // Spegnimento forzato dopo 5 secondi
+void setup() {
+Serial.begin(115200);
+pinMode(RELAY_PIN, OUTPUT);
+digitalWrite(RELAY_PIN, LOW);
+}
+void loop() {
+if (Serial.available() > 0) {
+char cmd = Serial.read();
+if (cmd == 'W') { digitalWrite(RELAY_PIN, HIGH); lastWaterTime = millis(); }
+if (cmd == 'S') { digitalWrite(RELAY_PIN, LOW); }
+}
+// Protezione hardware
+if (digitalRead(RELAY_PIN) == HIGH && (millis() - lastWaterTime > TIMEOUT)) {
+digitalWrite(RELAY_PIN, LOW);
+}
+}
+
+------------------------------
+6. SPECIFICHE HARDWARE & CABLAGGIO
+
+* Processing: Asus ROG Z13 (Output 3840x1080 @120Hz).
+* Sensori GSR: Elettrodi su Pin A0 (Pianta) e GND (Vaso/Terra).
+* Attuatore: Modulo Relay su Pin 8 per pompa 12V DC.
+* Visual Stack: Noise Simplex 4D -> GLSL Bloom -> Feedback Loop (Opacity 0.96) -> Luma Blur.
+
+------------------------------
+5. CONTROLLO FISICO E SICUREZZA (Arduino Sketch)
+Gestione relay con Safety Timeout per evitare allagamenti in caso di crash del PC.
+cpp
+const int RELAY_PIN = 8;
+unsigned long lastWaterTime = 0;
+const unsigned long TIMEOUT = 5000; // Force shutdown after 5 seconds
+void setup() {
+Serial.begin(115200);
+pinMode(RELAY_PIN, OUTPUT);
+digitalWrite(RELAY_PIN, LOW);
+}
+void loop() {
+if (Serial.available() &gt; 0) {
+char cmd = Serial.read();
+if (cmd == 'W') {
+digitalWrite(RELAY_PIN, HIGH);
+lastWaterTime = millis();
+}
+if (cmd == 'S') {
+digitalWrite(RELAY_PIN, LOW);
+}
+}
+// Hardware protection against system freezes
+if (digitalRead(RELAY_PIN) == HIGH &amp;&amp; (millis() - lastWaterTime &gt; TIMEOUT)) {
+digitalWrite(RELAY_PIN, LOW);
+}
+}
+------------------------------
+6. SPECIFICHE HARDWARE &amp; CABLAGGIO
+Processing: Asus ROG Z13 (Output 3840x1080 @120Hz).
+Sensori GSR: Elettrodi su Pin A0 (Pianta) e GND (Vaso/Terra).
+Attuatore: Modulo Relay su Pin 8 per pompa 12V DC.
+Visual Stack: Noise Simplex 4D -&gt; GLSL Bloom -&gt; Feedback Loop (Opacity 0.96) -&gt; Luma Blur.
+------------------------------
+7. INSTALLAZIONE E PROCEDURA DI AVVIAMENTO (DEPLOYMENT)
+Per garantire una performance stabile durante le esibizioni live, seguire rigorosamente questa sequenza di avvio:
+1. Connettere la scheda Arduino via USB e verificare che la porta seriale assegnata corrisponda a quella configurata in TouchDesigner.
+2. Posizionare gli elettrodi sulla pianta con delicatezza, assicurandosi che il contatto con la linfa e il terreno sia stabile per evitare letture GSR errate.
+3. Avviare TouchDesigner caricando il progetto principale. L'estensione ext_loader.py leggerà automaticamente il file JSON esterno, configurando i parametri vitali e aprendo la finestra in Performance Mode alla risoluzione nativa di 3840x1080.
+4. Monitorare la linea di base tramite i canali CHOP per verificare che la normalizzazione adattiva stia filtrando correttamente il rumore ambientale prima di aprire l'installazione al pubblico.
+MANUALE OPERATIVO E SPECIFICHE TECNICHE
+5. CONTROLLO FISICO E SICUREZZA (Arduino Sketch)
+Gestione relay con Safety Timeout per evitare allagamenti in caso di crash del PC.
+cpp
+const int RELAY_PIN = 8;
+unsigned long lastWaterTime = 0;
+const unsigned long TIMEOUT = 5000; // Force shutdown after 5 seconds
+void setup() {
+Serial.begin(115200);
+pinMode(RELAY_PIN, OUTPUT);
+digitalWrite(RELAY_PIN, LOW);
+}
+void loop() {
+if (Serial.available() > 0) {
+char cmd = Serial.read();
+if (cmd == 'W') {
+digitalWrite(RELAY_PIN, HIGH);
+lastWaterTime = millis();
+}
+if (cmd == 'S') {
+digitalWrite(RELAY_PIN, LOW);
+}
+}
+// Hardware protection against system freezes
+if (digitalRead(RELAY_PIN) == HIGH && (millis() - lastWaterTime > TIMEOUT)) {
+digitalWrite(RELAY_PIN, LOW);
+}
+}
+6. SPECIFICHE HARDWARE & CABLAGGIO
+Processing: Asus ROG Z13 (Output 3840x1080 @120Hz).
+Sensori GSR: Elettrodi su Pin A0 (Pianta) e GND (Vaso/Terra).
+Attuatore: Modulo Relay su Pin 8 per pompa 12V DC.
+Visual Stack: Noise Simplex 4D -> GLSL Bloom -> Feedback Loop (Opacity 0.96) -> Luma Blur.
+7. INSTALLAZIONE E PROCEDURA DI AVVIAMENTO (DEPLOYMENT)
+Per garantire una performance stabile durante le esibizioni live, seguire rigorosamente questa sequenza di avvio:
+1. Connessione Seriale:
+Connettere la scheda Arduino via USB e verificare che la porta seriale assegnata corrisponda a quella configurata in TouchDesigner.
+2. Posizionamento Sensori:
+Posizionare gli elettrodi sulla pianta con delicatezza, assicurandosi che il contatto con la linfa e il terreno sia stabile per evitare letture GSR errate.
+3. Avvio Software:
+Avviare TouchDesigner caricando il progetto principale. L'estensione ext_loader.py leggerà automaticamente il file JSON esterno, configurando i parametri vitali e aprendo la finestra in Performance Mode alla risoluzione nativa di 3840x1080.
+4. Verifica e Monitoraggio:
+Monitorare la linea di base tramite i canali CHOP per verificare che la normalizzazione adattiva stia filtrando correttamente il rumore ambientale prima di aprire l'installazione al pubblico.
+
