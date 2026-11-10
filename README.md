@@ -34,9 +34,7 @@ ETERNITYEON-/
 ├── README.md
 ├── index.html
 └── project.json
-
 ```
-
 
 
 ## Documentazione ed esempi
