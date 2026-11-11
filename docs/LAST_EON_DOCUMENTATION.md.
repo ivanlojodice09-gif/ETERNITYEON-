@@ -1,0 +1,220 @@
+# LAST EON — Documentazione del progetto
+
+**Repository:** ETERNITYEON-  
+**Versione del documento:** 1.0  
+**Stato:** progetto in evoluzione; configurazioni e integrazioni hardware da verificare
+
+## 1. Panoramica
+
+**LAST EON** è un progetto artistico e sperimentale che esplora la trasformazione di segnali, dati e input ambientali in esperienze visive, sonore e interattive.
+
+La visione del progetto mette in relazione persone, ambiente e sistemi digitali. I segnali acquisiti da sensori possono essere utilizzati come materiale creativo, senza considerarli automaticamente misure affidabili di emozioni, salute o stato biologico.
+
+Questa documentazione raccoglie la visione, l’architettura prevista e le note tecniche. Le funzionalità indicate come **da verificare** non devono essere considerate già implementate o collaudate.
+
+## 2. Visione artistica — The Eternal Protocol
+
+### LAST EON: The Eternal Protocol
+
+**One Face. One Race. Open Source Meta-Machine.**
+
+LAST EON immagina un organismo bio-digitale in cui segnali, ambiente e strumenti digitali concorrono alla creazione di un’esperienza audiovisiva condivisa.
+
+La macchina non interpreta necessariamente i segnali come verità biologiche: li trasforma in forme, ritmi e immagini. Il progetto unisce ricerca artistica, sperimentazione tecnica e documentazione aperta.
+
+### Principi di collaborazione
+
+- Condividere idee, prototipi e risultati in modo documentato.
+- Distinguere le funzionalità effettivamente testate da quelle ancora progettuali.
+- Descrivere i limiti e le condizioni d’uso dei sensori e degli attuatori.
+- Contribuire tramite modifiche documentate e Pull Request.
+
+## 3. Stato e componenti del progetto
+
+La repository contiene una pagina web basata su `index.html` e `project.json`, oltre a documentazione ed esempi. La pagina web presenta un’esperienza generativa con controlli locali: non implica, da sola, una connessione a TouchDesigner, Arduino o sensori fisici.
+
+| Componente | Stato da documentare |
+|---|---|
+| Pagina web (`index.html`) | Presente nella repository |
+| Contenuti della pagina (`project.json`) | Presente nella repository |
+| Master Document | Presente in `docs/MASTER_DOCUMENT_LAST_EON.md` |
+| Documentazione memoria/WebSocket | Presente in `docs/OTTIMIZZAZIONE_MEMORIA_WEBSOCKET.md` |
+| TouchDesigner e componenti `.tox` | Da verificare nel progetto effettivo |
+| Firmware Arduino | Da verificare e collaudare |
+| Sensori GSR e Piezo | Modelli, interfacce e calibrazione da specificare |
+| Attuatori | Collegamento e procedure di sicurezza da verificare |
+
+I nomi `config_lasteon.json`, `ext_loader.py`, `BIO_INPUT.tox` e `ASCENSION_LOGGER.py` descrivono componenti previsti: indicare come “disponibili” solo quelli effettivamente presenti nella repository e testati.
+
+## 4. Architettura prevista
+
+L’architettura proposta comprende quattro aree:
+
+1. **Acquisizione dati:** input da sensori o sorgenti software.
+2. **Elaborazione:** filtraggio, normalizzazione e mappatura dei dati.
+3. **Output audiovisivo:** rendering generativo tramite la pagina web o TouchDesigner.
+4. **Integrazione hardware:** eventuale comunicazione seriale con Arduino e dispositivi esterni.
+
+Il protocollo di comunicazione, il formato dei messaggi, la frequenza di aggiornamento e le procedure in caso di disconnessione devono essere definiti per l’installazione reale.
+
+## 5. Parametri di configurazione
+
+Esempio illustrativo di configurazione JSON:
+
+```json
+{
+  "project": "LAST EON",
+  "version": "2026.1",
+  "frequencies": {
+    "omega_min": 0.5,
+    "omega_max": 4.0,
+    "gain_factor": 2.5
+  },
+  "thresholds": {
+    "touch_chaos": 0.75,
+    "group_symbiosis": 1.5,
+    "fade_speed": 0.05
+  },
+  "display": {
+    "resolution": [3840, 1080],
+    "refresh_rate": 120
+  }
+}
+```
+
+I valori sono esempi e non sono una calibrazione verificata. La frequenza di aggiornamento del display non va confusa con una frequenza di lampeggio. Eventuali frequenze audio o visuali devono essere descritte come scelte artistiche o parametri tecnici, non come effetti neurologici dimostrati.
+
+## 6. TouchDesigner e `CONTAINER_PERFORMANCE`
+
+La sezione seguente descrive una struttura progettuale proposta per un Container COMP chiamato `PERFORMANCE_UI`. Nomi di operatori, canali, parametri e percorsi sono **da confrontare con il progetto TouchDesigner reale**.
+
+### 6.1 Controlli previsti
+
+| Nome previsto | Etichetta UI | Intervallo o tipo | Valore iniziale | Destinazione prevista |
+|---|---|---:|---:|---|
+| `Wheel_speed` | Audio Wheel Sync | 0.0–2.0 | 0.5 | `CONSTANT_MASTER.uWheelSpeed` |
+| `Bio_fusion` | Bio-Affinity (GSR) | 0.0–1.0 | 0.2 | `CONSTANT_MASTER.uBioAffinity` |
+| `Plex_radius` | Plexus Radius | 0.0–0.5 | 0.15 | `CONSTANT_MASTER.uMaxDist` |
+| `Flicker_trig` | Force 120Hz | Toggle | Off | `CONSTANT_MASTER.uFlicker` |
+| `Stardust_v` | Stardust Intensity | 0.0–1.0 | 0.4 | `CONSTANT_MASTER.uStardust` |
+
+Questi nomi e valori sono una specifica progettuale, non la conferma che i parametri esistano già. In particolare, evitare effetti stroboscopici: prevedere una modalità senza lampeggio e non usare “120Hz” come promessa di sicurezza o di effetto percettivo.
+
+### 6.2 Struttura interna ipotizzata
+
+- **In CHOP (`in1`):** input previsto per dati dell’Audio Wheel.
+- **In DAT (`in2`):** input previsto per messaggi JSON.
+- **Select CHOP:** selezione di canali da destinare al monitoraggio.
+- **Slider COMP:** controlli per velocità, affinità e raggio.
+- **Button COMP:** controlli per le funzioni Ascension e Reset.
+- **Container COMP `Monitoring`:** area di monitoraggio visivo.
+
+Specificare il formato e la provenienza dei messaggi, e validare i dati ricevuti prima di usarli.
+
+### 6.3 Bridge tra widget e parametri
+
+Un CHOP Execute DAT può essere utilizzato per collegare i valori dei widget ai parametri del progetto. Il seguente frammento è solo uno schema da adattare e verificare:
+
+```python
+def onValueChange(channel, sampleIndex, val, prev):
+    target = op("/project1/CONSTANT_MASTER")
+
+    if target is None:
+        debug("CONSTANT_MASTER non trovato.")
+        return
+
+    if channel.name == "v1":
+        target.par.uWheelSpeed = val
+    elif channel.name == "v2":
+        target.par.uBioAffinity = val
+    elif channel.name == "v3":
+        target.par.uMaxDist = val
+
+    return
+```
+
+Prima di usarlo, verificare nel progetto:
+
+- il percorso effettivo di `CONSTANT_MASTER`;
+- che i parametri indicati esistano;
+- che i canali in uscita si chiamino davvero `v1`, `v2` e `v3`;
+- che gli intervalli dei widget siano compatibili con quelli dei parametri.
+
+### 6.4 Disposizione a schermo prevista
+
+- Dimensioni iniziali proposte: 400 × 800 pixel.
+- Anteprima: possibile Null TOP a bassa risoluzione.
+- Aspetto grafico proposto: sfondo scuro e bordi rossi.
+- Eventuali indicatori per più ingressi: associare ogni indicatore al canale reale e documentare soglie e stato.
+
+Queste sono indicazioni di progetto e devono essere confermate nella scena TouchDesigner.
+
+## 7. Sensori e segnali
+
+Il progetto cita sensori GSR e Piezo. Prima di descrivere il sistema come funzionante, documentare per ciascun sensore:
+
+- modello e specifiche;
+- interfaccia e metodo di acquisizione;
+- unità o scala dei valori;
+- frequenza di campionamento;
+- procedura di calibrazione;
+- filtri e soglie utilizzati;
+- limiti noti e condizioni che possono alterare la lettura.
+
+I valori acquisiti non devono essere presentati come diagnosi o come misure certe di emozioni, “energia” o stato biologico senza una metodologia adeguata e validata.
+
+## 8. Integrazione Arduino e attuatori
+
+L’eventuale collegamento ad Arduino e ad attuatori deve essere verificato in base ai dispositivi effettivi. Questa documentazione **non sostituisce** gli schemi del produttore, le verifiche elettriche o una valutazione di sicurezza.
+
+Prima di collegare un carico:
+
+1. identificare modello, tensione, corrente e tipo di controllo del dispositivo;
+2. verificare compatibilità del modulo di interfaccia e dell’alimentazione;
+3. effettuare i test iniziali senza il carico collegato;
+4. verificare lo stato sicuro in caso di riavvio, errore o perdita di comunicazione;
+5. documentare un metodo di arresto accessibile;
+6. far controllare i circuiti da una persona competente.
+
+Non includere nel manuale uno sketch che attivi automaticamente pompe, riscaldatori o altri attuatori finché il comportamento e le protezioni non sono stati verificati con l’hardware reale.
+
+## 9. Sicurezza e accessibilità
+
+- Evitare luci stroboscopiche o lampeggi rapidi. Le luci lampeggianti possono comportare rischi per alcune persone, incluse persone fotosensibili.
+- Offrire una modalità senza lampeggio e controlli per ridurre o disattivare gli effetti intensi.
+- Non descrivere il progetto come dispositivo medico.
+- Non presentare frequenze audio o visuali come trattamenti o effetti neurologici dimostrati.
+- Non attivare attuatori fisici sulla sola base di un sensore o di una soglia non calibrata.
+- Rendere visibile lo stato del sistema e fornire una procedura di arresto.
+
+## 10. Piano di verifica
+
+Prima di dichiarare una funzione operativa, registrare il risultato dei test.
+
+| Area | Verifica | Esito |
+|---|---|---|
+| Pagina web | Si apre e carica `project.json` | Da verificare |
+| Controlli web | Modificano la visualizzazione prevista | Da verificare |
+| TouchDesigner | Operatori e parametri corrispondono alla documentazione | Da verificare |
+| Sensori | Letture stabili e procedura di calibrazione documentata | Da verificare |
+| Comunicazione | Formato, frequenza e gestione degli errori documentati | Da verificare |
+| Arduino | Firmware e comportamento provati senza attuatori collegati | Da verificare |
+| Sicurezza | Arresto e stato sicuro verificati | Da verificare |
+
+Aggiornare “Da verificare” solo dopo aver eseguito il test, annotando data, hardware e software utilizzati.
+
+## 11. Documenti correlati
+
+- [Master Document LAST EON](MASTER_DOCUMENT_LAST_EON.md)
+- [Ottimizzazione memoria e WebSocket](OTTIMIZZAZIONE_MEMORIA_WEBSOCKET.md)
+- [Pagina del progetto](../index.html)
+- [Configurazione della pagina](../project.json)
+
+## 12. Nota conclusiva
+
+LAST EON unisce una visione artistica a una sperimentazione tecnica. Per rendere il progetto comprensibile e riproducibile, la documentazione deve mantenere chiara la distinzione tra:
+
+- **visione** — ciò che il progetto intende esplorare;
+- **proposta** — componenti e architetture pianificati;
+- **implementazione** — ciò che è presente nel codice;
+- **verifica** — ciò che è stato effettivamente testato.
