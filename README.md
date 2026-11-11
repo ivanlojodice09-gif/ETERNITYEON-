@@ -1,8 +1,44 @@
 # ETERNITYEON-
-LAST EON is an open-source, modular immersive digital framework and interactive art installation. * Technology Stack: Built using Python, TouchDesigner, and GLSL shaders. * Core Functionality: Processes real-time sensor data, WebSockets, and audio streams to generate responsive visual and acoustic environments.
-# ETERNITYEON-
+LAST EON is an open-source, modular immersive digital framework and interactive art installation. * Technology # ETERNITYEON-
 
 ### LAST EON · Generative Immersive Digital Experience
+
+**Wildland Revolution**  
+by **Ivan Nicola Lojodice**
+
+> **Free Knowledge · One Race · One Face**  
+> *Qui giace il Tempo. Qui comincia Noi.*
+
+ETERNITYEON- è la repository del progetto **LAST EON**, una ricerca artistica e tecnologica sulle relazioni tra dati, ambiente, percezione e trasformazione. Il progetto esplora come segnali e contenuti digitali possano diventare materiale per esperienze visive, sonore e interattive.
+
+## Visione
+
+LAST EON considera il dato non solo come informazione, ma come materiale da osservare, interpretare e trasformare.
+
+La ricerca si sviluppa attorno a tre concetti:
+
+- **Segnale** — ciò che viene rilevato o ricevuto.
+- **Relazione** — i legami tra ambiente, persone e sistemi digitali.
+- **Trasformazione** — il passaggio dal dato a una forma visiva, sonora o narrativa.
+
+Il progetto è in evoluzione e unisce sperimentazione artistica, sviluppo digitale e ricerca.
+
+## Stack tecnologico
+
+Il progetto può includere:
+
+- **TouchDesigner** per la rete visuale interattiva.
+- **Arduino** per acquisire dati da sensori analogici.
+- **Python** per leggere la seriale e inoltrare i dati.
+- **OSC** per trasmettere i valori a TouchDesigner.
+- **GLSL** per eventuali shader personalizzati.
+
+## Flusso dati Arduino–TouchDesigner
+
+Il flusso previsto per l’input da Arduino è:
+
+```text
+Sensori → Arduino → USB/seriale → bridge Python → OSC → TouchDesigner Generative Immersive Digital Experience
 **Wildland Revolution**  
 by **Ivan Nicola Lojodice**
 
