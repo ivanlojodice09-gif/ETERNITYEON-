@@ -1,0 +1,79 @@
+:root {
+  --bg: #05070d;
+  --bg-2: #0d1420;
+  --panel: rgba(17, 25, 36, 0.76);
+  --line: rgba(255,255,255,0.12);
+  --text: #edf3ff;
+  --muted: #a8b7d1;
+  --gold: #d9b76d;
+  --blue: #76a9ff;
+  --cyan: #7fe7dc;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background:
+    linear-gradient(rgba(5, 7, 13, 0.62), rgba(5, 7, 13, 0.76)),
+    url("./assets/sfondo.jpg") center / cover no-repeat fixed;
+  color: var(--text);
+}
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+
+.hero {
+  border: 1px solid var(--line);
+  background: rgba(8, 11, 17, 0.68);
+  border-radius: 18px;
+  padding: 28px 28px 20px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.3rem, 5vw, 5rem);
+  line-height: 0.96;
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.45);
+}
+
+.subtitle {
+  margin-top: 18px;
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 760px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.meta {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.chip {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.02);
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 0.82rem;
+}
