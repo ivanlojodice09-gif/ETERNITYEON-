@@ -1,6 +1,8 @@
 # ETERNITYEON-
 
-###  le relazioni tra dati, ambiente, percezione e trasformazione, attraverso esperienze visive, sonore e interattive.
+
+### LAST EON · Generative Immersive Digital Experience
+
 
 ## Visione
 
