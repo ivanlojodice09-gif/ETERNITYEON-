@@ -1,14 +1,6 @@
 # ETERNITYEON-
 
-### LAST EON · Generative Immersive Digital Experience
-
-**Wildland Revolution**  
-by **Ivan Nicola Lojodice**
-
-> **Free Knowledge · One Race · One Face**  
-> *Qui giace il Tempo. Qui comincia Noi.*
-
-ETERNITYEON- è la repository di **LAST EON**, un progetto artistico e tecnologico che esplora le relazioni tra dati, ambiente, percezione e trasformazione, attraverso esperienze visive, sonore e interattive.
+###  le relazioni tra dati, ambiente, percezione e trasformazione, attraverso esperienze visive, sonore e interattive.
 
 ## Visione
 
