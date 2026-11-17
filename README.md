@@ -87,3 +87,4 @@ Prima di eseguire script che modificano un progetto TouchDesigner, controlla il 
 ## Nota finale
 
 LAST EON è un progetto artistico e tecnico in evoluzione. Questa repository raccoglie materiali, documentazione ed esempi; la validazione richiede test reali su hardware e software.
+
