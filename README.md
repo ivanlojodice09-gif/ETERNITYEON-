@@ -1,5 +1,4 @@
 # ETERNITYEON-
-![Sfondo Repository](sfondojpg.jpg.jpg)
 
 
 ### LAST EON · Generative Immersive Digital Experience
