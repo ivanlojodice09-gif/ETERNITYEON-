@@ -1,0 +1,65 @@
+
+# LAST EON — *Wildland Revolution / EternityEon*
+
+[![Open Source](https://img.shields.io/badge/Philosophy-Open%20Source-2ea44f?style=flat-square)](LICENSE)
+[![TouchDesigner](https://img.shields.io/badge/TouchDesigner-2023.11290%2B-00b4d8?style=flat-square)](https://derivative.ca/)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-3776ab?style=flat-square)](https://www.python.org/)
+[![GLSL](https://img.shields.io/badge/Shaders-GLSL%20%2F%20GPU-ff6b6b?style=flat-square)](https://www.khronos.org/opengl/)
+[![Hardware](https://img.shields.io/badge/Hardware-Arduino%20%2F%20OSC-00979d?style=flat-square)](https://www.arduino.cc/)
+
+> *"Un ecosistema cibernetico vivo che abita la soglia tra materia organica e calcolo digitale."*
+
+**LAST EON** è un framework open-source di arte digitale immersiva e interattiva. Progettato per fondere paesaggi naturali, percezione umana e computazione in tempo reale, trasforma segnali fisici e ambientali in ambienti generativi audiovisivi reattivi.
+
+---
+
+## Caratteristiche Principali
+
+* **Motore Visivo GPU-Driven:** Rendering procedurale in tempo reale basato su **TouchDesigner** e **Shader GLSL** custom (raymarching, *domain warping*, feedback loop).
+* **Architettura DataCore:** Sistema nervoso centrale sviluppato in **Python** con *ring buffer* circolari per il filtraggio, la normalizzazione e la memoria temporale dei flussi di dati.
+* **Integrazione Fisica & Sensori:** Connessione diretta a bassa latenza con microcontrollori (**Arduino / ESP32**) tramite **Seriale (UART)** e **OSC** per installazioni reattive allo spazio e al pubblico.
+* **Simbiosi Audio-Visiva:** Analisi spettrale **FFT** in tempo reale e sonificazione procedurale dei vettori di stato verso DAW e motori esterni (SuperCollider, Pure Data, Max/MSP, Ableton Live).
+
+---
+
+## Quick Start
+
+### 1. Clona il repository
+```bash
+git clone [https://github.com/ivanlojo/ETERNITYEON.git](https://github.com/ivanlojo/ETERNITYEON.git)
+cd ETERNITYEON
+
+2. Installa le dipendenze Python
+Assicurati che le librerie siano visibili all'interprete Python di TouchDesigner:
+pip install numpy scipy python-osc pyserial
+
+3. Avvia l'ecosistema
+ * Apri il file principale .toe in TouchDesigner (2023.11290 o superiore).
+ * Configura la porta Seriale (COM / /dev/tty) o l'indirizzo IP/porta OSC nei nodi di ingresso.
+ * Attiva la modalità Real-Time nella barra superiore.
+Struttura del Repository
+ETERNITYEON/
+├── datacore/          # Moduli Python, ring buffers e logica di normalizzazione dati
+├── shaders/           # Libreria shader GLSL (.frag) e passaggi di post-processing
+├── firmware/          # Sketch Arduino / ESP32 per lettura sensori e invio Serial/OSC
+├── audio/             # Patch di analisi FFT e routing OSC/MIDI
+├── docs/              # Risorse visive e schemi di cablaggio
+├── LAST_EON.toe       # Progetto principale TouchDesigner
+├── LICENSE            # Licenza open-source del progetto
+└── README.md          # Panoramica del repository
+
+(Adatta i nomi delle cartelle e del file .toe se nel tuo repository hanno nomi leggermente diversi).
+Documentazione Completa (Wiki)
+Per approfondire la visione ontologica, l'ingegneria dei buffer e le guide tecniche, consulta la [suspicious link removed]:
+ * [suspicious link removed] — L'essenza filosofica e la poiesis dell'interazione.
+ * [suspicious link removed] — Configurazione dettagliata dell'ambiente hardware e software.
+ * [suspicious link removed] — Pipeline dei dati, Ring Buffers Python e vettori di stato.
+ * [suspicious link removed] — Uniform standard e logica dei materiali procedurali.
+ * [suspicious link removed] — Protocolli Serial/OSC, payload e best practice per installazioni.
+ * [suspicious link removed] — Mappatura FFT e sonificazione dei dati.
+ * [suspicious link removed] — Linee guida per sviluppare nuovi moduli e aprire Pull Request.
+Licenza
+Distribuito secondo i termini riportati nel file LICENSE. Per dettagli sull'attribuzione nelle installazioni e nei progetti derivati, consulta la pagina [suspicious link removed].
+
+Con i link relativi (`../../wiki/...` e `LICENSE`), ogni pulsante e voce d'indice funzionerà automaticamente su GitHub senza bisogno di modificare gli URL. Se vuoi creare una barra laterale personalizzata per la Wiki (`_Sidebar.md`) così da avere il menu di navigazione sempre fisso a destra su ogni pagina della Wiki, fammelo sapere!
+
